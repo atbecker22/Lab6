@@ -1,7 +1,6 @@
-src/main.o: ../src/main.c C:/Users/atbecker22/workspace/Lab6/inc/main.h \
- C:/Users/atbecker22/workspace/Lab6/inc/USART.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_bus.h \
- C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32l4xx.h \
+src/CircularBuffer.o: ../src/CircularBuffer.c \
+ C:/Users/atbecker22/workspace/Lab6/inc/CircularBuffer.h \
+ C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32L4xx.h \
  C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32l475xx.h \
  C:/Users/atbecker22/workspace/Lab6/CMSIS/core/core_cm4.h \
  C:/Users/atbecker22/workspace/Lab6/CMSIS/core/core_cmInstr.h \
@@ -13,6 +12,7 @@ src/main.o: ../src/main.c C:/Users/atbecker22/workspace/Lab6/inc/main.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_conf.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_def.h \
+ C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32l4xx.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_gpio.h \
@@ -74,25 +74,11 @@ src/main.o: ../src/main.c C:/Users/atbecker22/workspace/Lab6/inc/main.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_pcd.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_usb.h \
  C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_hcd.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_rcc.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_system.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_utils.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_gpio.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_exti.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_usart.h \
- C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_pwr.h \
- C:/Users/atbecker22/workspace/Lab6/Utilities/B-L475E-IOT01/stm32l475e_iot01.h \
- C:/Users/atbecker22/workspace/Lab6/inc/CircularBuffer.h \
- C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32L4xx.h
+ C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_hcd.h
 
-C:/Users/atbecker22/workspace/Lab6/inc/main.h:
+C:/Users/atbecker22/workspace/Lab6/inc/CircularBuffer.h:
 
-C:/Users/atbecker22/workspace/Lab6/inc/USART.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_bus.h:
-
-C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32l4xx.h:
+C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32L4xx.h:
 
 C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32l475xx.h:
 
@@ -115,6 +101,8 @@ C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_conf.h:
 C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 
 C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_def.h:
+
+C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32l4xx.h:
 
 C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 
@@ -239,23 +227,3 @@ C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_usb.h:
 C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h:
 
 C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_hal_hcd.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_rcc.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_system.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_utils.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_gpio.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_exti.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_usart.h:
-
-C:/Users/atbecker22/workspace/Lab6/HAL_Driver/Inc/stm32l4xx_ll_pwr.h:
-
-C:/Users/atbecker22/workspace/Lab6/Utilities/B-L475E-IOT01/stm32l475e_iot01.h:
-
-C:/Users/atbecker22/workspace/Lab6/inc/CircularBuffer.h:
-
-C:/Users/atbecker22/workspace/Lab6/CMSIS/device/stm32L4xx.h:

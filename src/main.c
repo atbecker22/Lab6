@@ -15,10 +15,14 @@
 #include "stm32l4xx_hal.h"
 #include "stm32l475e_iot01.h"
 #include "string.h"
+#include "CircularBuffer.h"
 int LEDtime;
-int main(void)
-{
+commBuffer_t commBuffer;
+static uint32_t USARTCount = 0;
+char receivedstr[MAXCOMMBUFFER+1];
+int main(void){
 	HAL_Init();
+	initBuffer(&commBuffer, 0);
 	/* Configure the System clock to have a frequency of 80 MHz */
 	SystemClock_Config();
 	BSP_LED_Init(LED2);
@@ -30,11 +34,12 @@ int main(void)
 	unsigned long cTicks = HAL_GetTick();
 	/* Infinite loop */
 	while(1){
-		if (haveString){
+		if (haveMessage(&commBuffer)){
+			getMessage(&commBuffer, receivedstr);
 			cTicks = HAL_GetTick();
 			BSP_LED_On(LED2);
-			LEDtime = strlen(receivedString) * 500;
-			SendCharArrayUSART4(receivedString,strlen(receivedString));
+			LEDtime = getBufferSize(&commBuffer) * 500;
+			SendCharArrayUSART4(receivedstr,getBufferSize(&commBuffer));
 			SendCharArrayUSART4("\n",strlen("\n"));
 			haveString = 0;
 		}
@@ -118,15 +123,8 @@ void USARTx_IRQHandler(void) {
 		/* check if the received character is not the LF character (used to determine end of string)
 		 * or the if the maximum string length has been been reached
 		 */
-		if ( !((t == '\n')||(t == '\r')) && (cnt < MAX_STRLEN) ){
-			receivedString[cnt] = t;
-			cnt++;
-		}
-		else{ // otherwise reset the character counter and print the received string
-			receivedString[cnt] = 0x0;
-			cnt = 0;
-			haveString = 1;
-		}
+		putChar(&commBuffer, t);
+		USARTCount++;
 	}
 
 }

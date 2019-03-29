@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/CircularBuffer.c \
 ../src/USART.c \
 ../src/main.c \
 ../src/stm32l4xx_it.c \
@@ -11,6 +12,7 @@ C_SRCS += \
 ../src/system_stm32l4xx.c 
 
 OBJS += \
+./src/CircularBuffer.o \
 ./src/USART.o \
 ./src/main.o \
 ./src/stm32l4xx_it.o \
@@ -18,6 +20,7 @@ OBJS += \
 ./src/system_stm32l4xx.o 
 
 C_DEPS += \
+./src/CircularBuffer.d \
 ./src/USART.d \
 ./src/main.d \
 ./src/stm32l4xx_it.d \
