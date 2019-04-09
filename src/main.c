@@ -20,9 +20,11 @@ int LEDtime;
 commBuffer_t rxCommBuffer;
 commBuffer_t txCommBuffer;
 static uint32_t USARTCount = 0;
-char receivedstr[MAXCOMMBUFFER+10];
+int charCount;
+char receivedstr[MAXCOMMBUFFER];
 int main(void){
-HAL_Init();
+	HAL_Init();
+ 	charCount = 0;
 	initBuffer(&rxCommBuffer, 0);
 	initBuffer(&txCommBuffer, 1);
 	/* Configure the System clock to have a frequency of 80 MHz */
@@ -37,13 +39,15 @@ HAL_Init();
 	/* Infinite loop */
 	while(1){
 		if (haveMessage(&rxCommBuffer)){
+			charCount = 0;
 			getMessage(&rxCommBuffer, receivedstr);
 			putMessage(&txCommBuffer, receivedstr, strlen(receivedstr));
 			LL_USART_EnableIT_TXE(USARTx_INSTANCE);
 			cTicks = HAL_GetTick();
 			BSP_LED_On(LED2);
 			LEDtime = (strlen(receivedstr) - 1) * 500;
-			memset(receivedstr, '\0', MAXCOMMBUFFER+10);
+			memset(receivedstr, '\0', MAXCOMMBUFFER);
+			charCount = 0;
 		}
 		if(HAL_GetTick() - cTicks >= LEDtime){
 			BSP_LED_Off(LED2);
@@ -119,22 +123,20 @@ static void SystemClock_Config(void)
  */
 void USARTx_IRQHandler(void) {
 	// check if the USART6 receive interrupt flag was set
-	int charCount = 0;
 	if(LL_USART_IsActiveFlag_RXNE(USARTx_INSTANCE)){
 		char t = LL_USART_ReceiveData8(USARTx_INSTANCE);
 		charCount++;
 		/* check if the received character is not the LF character (used to determine end of string)
 		 * or the if the maximum string length has been been reached
 		 */
-		if(charCount < MAXCOMMBUFFER){
-		putChar(&rxCommBuffer, t);
-		}
+		putChar(&rxCommBuffer, t, charCount);
 	}
 	else if(LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE)){
 		char t = getChar(&txCommBuffer);
 		LL_USART_TransmitData8(USARTx_INSTANCE, t);
 		if(t == '\n'){
 			LL_USART_DisableIT_TXE(USARTx_INSTANCE);
+			charCount = 0;
 		}
 	}
 
