@@ -5,7 +5,7 @@
 typedef struct _commBuffer_t {
 	uint32_t head;
 	uint32_t tail;
-	char buffer[MAXCOMMBUFFER + 1];
+	char buffer[MAXCOMMBUFFER];
 	uint8_t type;
 	uint32_t MessageCount;
 	uint32_t bufferSize;
