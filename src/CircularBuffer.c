@@ -25,21 +25,43 @@ uint8_t haveMessage(commBuffer_t* comm){
 	}
 }
 //Put character in buffer and update head
-void putChar(commBuffer_t* comm, char ch){
-	comm->buffer[comm->head] = ch;
-	comm->head++;
-	if(comm->head == MAXCOMMBUFFER){
-		comm->head = 0;
+void putChar(commBuffer_t* comm, char ch, int count){
+	if(count){
+		if(count < MAXCOMMBUFFER){
+			comm->buffer[comm->head] = ch;
+			comm->head++;
+		}
+		else if(count == MAXCOMMBUFFER){
+			comm->buffer[comm->head] = '\n';
+			comm->head++;
+		}
+		if(comm->head > MAXCOMMBUFFER){
+			comm->head = 0;
+		}
+		if(ch == '\n'){
+			comm->MessageCount++;
+		}
 	}
-	if(ch == '\n'){
-		comm->MessageCount++;
+	else{
+		comm->buffer[comm->head] = ch;
+		comm->head++;
+		if(comm->head > MAXCOMMBUFFER){
+			comm->head = 0;
+		}
+		if(ch == '\n'){
+			comm->MessageCount++;
+		}
+
 	}
 }
 //Get character from buffer and update tail;
 char getChar(commBuffer_t* comm){
+	if(comm->tail > MAXCOMMBUFFER){
+		comm->tail = 0;
+	}
 	int i = comm->tail;
 	comm->tail++;
-	if(comm->tail == MAXCOMMBUFFER){
+	if(comm->tail > MAXCOMMBUFFER){
 		comm->tail = 0;
 	}
 	return comm->buffer[i];
@@ -47,7 +69,7 @@ char getChar(commBuffer_t* comm){
 //put C string into buffer
 void putMessage(commBuffer_t* comm, char* str, uint8_t length){
 	for(int ndx = 0; ndx < length; ndx++){
-		putChar(comm, str[ndx]);
+		putChar(comm, str[ndx], 0);
 	}
 }
 //get C string from buffer
@@ -59,15 +81,21 @@ void getMessage(commBuffer_t* comm, char* str){
 			comm->tail = comm->head;
 			str[ndx] = ' ';
 			ndx++;
+			if(ndx == MAXCOMMBUFFER){
+				ndx = 0;
+			}
 			str[ndx] = '\n';
 		}
 		ndx++;
+		if(ndx == MAXCOMMBUFFER){
+			ndx = 0;
+		}
 	}
-	str[ndx] = '\0';
+	//str[ndx] = '\0';
 	comm->head++;
 	comm->tail++;
 
-	comm->MessageCount -= 1;
+ 	comm->MessageCount -= 1;
 }
 //get Size of Buffer
 int getBufferSize(commBuffer_t* comm){
