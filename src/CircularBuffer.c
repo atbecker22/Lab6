@@ -6,6 +6,9 @@
  */
 #include "CircularBuffer.h"
 
+int overflowFlag = 0;
+int returnbFLag = 0;
+
 //Initializes the struct commBuffer_t to zero, Type = Rx or Tx
 void initBuffer(commBuffer_t* comm, uint8_t type){
 	comm->MessageCount = 0;
@@ -34,8 +37,9 @@ void putChar(commBuffer_t* comm, char ch, int count){
 		else if(count == MAXCOMMBUFFER){
 			comm->buffer[comm->head] = '\n';
 			comm->head++;
+			overflowFlag = 1;
 		}
-		if(comm->head > MAXCOMMBUFFER){
+		if(comm->head >= MAXCOMMBUFFER){
 			comm->head = 0;
 		}
 		if(ch == '\n'){
@@ -45,7 +49,7 @@ void putChar(commBuffer_t* comm, char ch, int count){
 	else{
 		comm->buffer[comm->head] = ch;
 		comm->head++;
-		if(comm->head > MAXCOMMBUFFER){
+		if(comm->head == MAXCOMMBUFFER){
 			comm->head = 0;
 		}
 		if(ch == '\n'){
@@ -56,12 +60,12 @@ void putChar(commBuffer_t* comm, char ch, int count){
 }
 //Get character from buffer and update tail;
 char getChar(commBuffer_t* comm){
-	if(comm->tail > MAXCOMMBUFFER){
+	if(comm->tail >= MAXCOMMBUFFER){
 		comm->tail = 0;
 	}
 	int i = comm->tail;
 	comm->tail++;
-	if(comm->tail > MAXCOMMBUFFER){
+	if(comm->tail >= MAXCOMMBUFFER){
 		comm->tail = 0;
 	}
 	return comm->buffer[i];
@@ -75,8 +79,9 @@ void putMessage(commBuffer_t* comm, char* str, uint8_t length){
 //get C string from buffer
 void getMessage(commBuffer_t* comm, char* str){
 	int ndx = 0;
-	while(comm->head != comm->tail){
+	while(comm->head != comm->tail || overflowFlag == 1){
 		str[ndx] = getChar(comm);
+		overflowFlag = 0;
 		if(ndx == 0 && str[ndx] == '\n'){
 			comm->tail = comm->head;
 			str[ndx] = ' ';
@@ -93,7 +98,13 @@ void getMessage(commBuffer_t* comm, char* str){
 	}
 	//str[ndx] = '\0';
 	comm->head++;
+	if(comm->head == MAXCOMMBUFFER){
+		comm->head = 0;
+	}
 	comm->tail++;
+	if(comm->tail >= MAXCOMMBUFFER){
+		comm->tail = 0;
+	}
 
  	comm->MessageCount -= 1;
 }
